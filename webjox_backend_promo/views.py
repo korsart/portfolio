@@ -1,9 +1,12 @@
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import SiteSerializer, HeaderSerializer, MainBlockSerializer, OurServicesSerializer, InterviewSerializer, KeysesSerializer, FeedbacksSerializer, CooperationFormatsSerializer, LeadFormSerializer, FooterSerializer
-from .models import Site, Header, MainBlock, OurServices, Interview, Keyses, Feedbacks, CooperationFormats, LeadForm, Footer
+from .serializers import SiteSerializer, HeaderSerializer, MainBlockSerializer, OurServicesSerializer, \
+    InterviewSerializer, KeysesSerializer, FeedbacksSerializer, CooperationFormatsSerializer, LeadFormSerializer, \
+    FooterSerializer
+from .models import Site, Header, MainBlock, OurServices, Interview, Keyses, Feedbacks, CooperationFormats, LeadForm, \
+    Footer
+
 
 class PromoAPIList(generics.GenericAPIView):
     serializer_class = SiteSerializer
@@ -34,10 +37,11 @@ class PromoMainBlockAPIList(generics.GenericAPIView):
 
 class PromoOurServicesAPIList(generics.GenericAPIView):
     serializer_class = OurServicesSerializer
+    queryset = OurServices.objects.all()
 
     def get(self, request, *args, **kwargs):
-        queryset = OurServices.objects.all().first()
-        data = self.serializer_class(queryset).data
+        queryset =self.get_queryset()
+        data = self.serializer_class(queryset,many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
 
@@ -52,10 +56,11 @@ class PromoInterviewAPIList(generics.GenericAPIView):
 
 class PromoKeysesAPIList(generics.GenericAPIView):
     serializer_class = KeysesSerializer
+    queryset = Keyses.objects.all()
 
     def get(self, request, *args, **kwargs):
-        queryset = Keyses.objects.all().first()
-        data = self.serializer_class(queryset).data
+        queryset = self.get_queryset()
+        data = self.serializer_class(queryset,many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
 
@@ -70,10 +75,11 @@ class PromoFeedBacksAPIList(generics.GenericAPIView):
 
 class PromoCooperationFormatsAPIList(generics.GenericAPIView):
     serializer_class = CooperationFormatsSerializer
+    queryset = CooperationFormats.objects.all()
 
     def get(self, request, *args, **kwargs):
-        queryset = CooperationFormats.objects.all().first()
-        data = self.serializer_class(queryset).data
+        queryset = self.get_queryset()
+        data = self.serializer_class(queryset,many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
 
