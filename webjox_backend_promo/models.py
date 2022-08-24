@@ -17,6 +17,7 @@ class Fonts(models.Model):
 
 
 class Colours(models.Model):
+    '''Цвета, которые будут использоваться на сайте'''
     name = models.CharField(max_length=50, verbose_name='Название цвета')
     code = models.CharField(max_length=10, verbose_name='Код цвета')
 
@@ -44,7 +45,7 @@ class Site(models.Model):
 
 
 class Header(models.Model):
-    '''Хэдер сайта(главный блок) с кликабельным фоновым изображением и лого'''
+    '''Хэдер сайта с меню и лого'''
     site = models.ForeignKey(
         Site, null=True, on_delete=models.CASCADE, default=None)
 
@@ -57,7 +58,7 @@ class Header(models.Model):
 
 
 class ElementMenu(models.Model):
-    '''Элементы меню сайта с якорными ссылками'''
+    '''Элементы меню с якорными ссылками'''
     title = models.CharField(
         max_length=100, verbose_name='Название элемента меню')
     link =  models.CharField(
@@ -73,6 +74,7 @@ class ElementMenu(models.Model):
 
 
 class MainBlock(models.Model):
+    '''Главный первый блок с фоновым видео, офферами и кнопкой для оставления заявки'''
     background_mobile = models.FileField(upload_to='backgrounds/mobile',
                               blank=True, null=True, verbose_name='Фон для мобилки', default=None)
     background_desktop = models.FileField(upload_to='backgrounds/mobile',
@@ -98,6 +100,7 @@ class MainBlock(models.Model):
         return "Главный блок"
 
 class Offers(models.Model):
+    '''Офферы для главного блока'''
     text = models.TextField(verbose_name='Текст оффера')
     mainblock = models.ForeignKey(MainBlock, null=True, on_delete=models.PROTECT, default=None, related_name='offers_mainblock')
     
@@ -110,6 +113,7 @@ class Offers(models.Model):
 
 
 class OurServices(models.Model):
+    '''Блок "Наши услуги"'''
     name = models.CharField(
         max_length=50, verbose_name='Название услуги')
     description = models.TextField(
@@ -128,6 +132,7 @@ class OurServices(models.Model):
 
 
 class Interview(models.Model):
+    '''Блок с интервью и фото директора и кнопками связи в мессенджерах'''
     text = models.TextField(
         verbose_name='Текст')
     signature = models.TextField(
@@ -150,6 +155,7 @@ class Interview(models.Model):
 
 
 class Stack (models.Model):
+    '''Список языков программирования'''
     language = models.CharField(max_length=20, verbose_name='Язык программирования')
 
     class Meta:
@@ -161,6 +167,7 @@ class Stack (models.Model):
 
 
 class Frameworks (models.Model):
+    '''Список фрэймворков'''
     framework = models.CharField(max_length=20, verbose_name='Фреймворк')
 
     class Meta:
@@ -172,6 +179,7 @@ class Frameworks (models.Model):
 
 
 class Keyses(models.Model):
+    '''Блок "Наши кейсы"'''
     title = models.CharField(max_length=50, verbose_name='Навзание кейса')
     image = models.ImageField(upload_to='images/keyses/', blank=True, null=True, verbose_name='Обложка кейса')
     description = models.TextField(verbose_name='Описание кейса', blank=True, null=True)
@@ -190,6 +198,7 @@ class Keyses(models.Model):
 
 
 class Feedbacks (models.Model):
+    '''Блок с отзывами'''
     title = models.CharField(max_length=50, verbose_name='Заголовок блока')
     text = models.TextField(verbose_name='Текст', blank=True, null=True)
     site = models.ForeignKey(
@@ -205,6 +214,7 @@ class Feedbacks (models.Model):
 
 
 class Feedback (models.Model):
+    '''Модель для отдельных отзывов'''
     name = models.CharField(max_length=50, verbose_name='Название проекта', blank=True, null=True)
     screenshot = models.ImageField(upload_to='images/feedbacks/screenshots', verbose_name='Скриншот')
     mail = models.ImageField(upload_to='images/feedbacks/mails', verbose_name='Письмо')
@@ -220,6 +230,7 @@ class Feedback (models.Model):
 
 
 class CooperationFormats (models.Model):
+    '''Блок "Форматы сотрудничества"'''
     name = models.CharField(max_length=30, verbose_name='Название')
     discription = models.TextField(verbose_name='Описание', blank=True, null=True)
     button_text = models.CharField(max_length=20, verbose_name='Текст кнопки')
@@ -239,6 +250,7 @@ class CooperationFormats (models.Model):
 
 
 class LeadForm(models.Model):
+    '''Блок с формой сбора заявок'''
     title = models.CharField(max_length=50, verbose_name='Заголовок блока')
     button_text = models.CharField(max_length=30, verbose_name='Текст кнопки')
     button_colour = models.ForeignKey(Colours, blank=True, null=True, verbose_name='Цвет кнопки',
@@ -255,6 +267,7 @@ class LeadForm(models.Model):
 
 
 class ServisesLeadForm (models.Model):
+    '''Список услуг для отображения на форме сбора заявок'''
     name = models.CharField(max_length=20, verbose_name='Услуги')
     leadform = models.ForeignKey(
         LeadForm, null=True, on_delete=models.CASCADE, default=None, related_name='services_leadform')
@@ -289,6 +302,7 @@ class Footer(models.Model):
 
 
 class DecidesOnFooter (models.Model):
+    '''Список предостовляемых решений для бизнеса, отображаемый в подвале сайта'''
     name = models.CharField(max_length=20, verbose_name='Решение')
     footer = models.ForeignKey(
         Footer, null=True, on_delete=models.CASCADE, default=None, related_name='decides_footer')
